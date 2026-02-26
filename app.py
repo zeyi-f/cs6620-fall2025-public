@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, jsonify, send_from_directory,
 from flask_cors import CORS
 from pydub import AudioSegment
 import tempfile
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -566,6 +567,16 @@ def auto_load_data():
             
         except Exception as e:
             app.logger.error(f"Failed to auto-load CSV: {e}")
+
+
+@app.route('/health')
+def health():
+    return {
+        'status': 'healthy',
+        'version': '2.0',
+        'deployment_method': 'automated',
+        'timestamp': datetime.now().isoformat()
+    }
 
 
 if __name__ == '__main__':
